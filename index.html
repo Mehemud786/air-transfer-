@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>NIRNOY DIAGNOSTICS - Secure File & Camera Transfer</title>
+    <title>Air Transfer - Secure File & Camera Transfer</title>
     
-    <!-- Tailwind CSS --->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -14,13 +14,13 @@
                 extend: {
                     colors: {
                         brand: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            800: '#3730a3',
-                            900: '#312e81',
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
                         }
                     },
                     screens: {
@@ -65,8 +65,8 @@
         }
 
         .drag-active {
-            border-color: #6366f1 !important;
-            background-color: rgba(99, 102, 241, 0.15) !important;
+            border-color: #ef4444 !important;
+            background-color: rgba(239, 68, 68, 0.15) !important;
             transform: scale(1.01);
         }
 
@@ -109,13 +109,13 @@
     <header class="border-b border-slate-800/80 bg-slate-900/95 sticky top-0 z-40 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
             <div class="flex items-center space-x-2.5 sm:space-x-3 overflow-hidden">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-500 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 shrink-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-red-500 to-rose-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 shrink-0">
                     <i class="fa-solid fa-paper-plane text-base sm:text-lg"></i>
                 </div>
                 <div class="truncate">
                     <div class="flex items-center gap-1.5 flex-wrap">
-                        <span class="font-bold text-base sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-400 truncate">NIRNOY DIAGNOSTICS</span>
-                        <span class="text-[9px] sm:text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30 tracking-wider shrink-0">P2P Direct</span>
+                        <span class="font-bold text-base sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-400 truncate">Air Transfer</span>
+ 
                     </div>
                 </div>
             </div>
@@ -131,188 +131,311 @@
     </header>
 
     <!-- Sandbox / Local Notice Banner -->
-    <div id="sandboxNotice" class="hidden bg-indigo-950/90 border-b border-indigo-800/50 px-3 py-2 text-[11px] sm:text-xs text-indigo-200 text-center flex items-center justify-center gap-2">
+    <div id="sandboxNotice" class="hidden bg-rose-950/90 border-b border-rose-800/50 px-3 py-2 text-[11px] sm:text-xs text-rose-200 text-center flex items-center justify-center gap-2">
         <i class="fa-solid fa-circle-info text-brand-400 shrink-0"></i>
         <span>Sandboxed iframe environment detected. Multi-Tab Local Bridge enabled for direct transfer.</span>
     </div>
 
-    <!-- Main Grid Layout -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
-        
-        <!-- Left Column: Device Info, QR Code & Connection -->
-        <div class="lg:col-span-5 space-y-4 sm:space-y-6">
-            
-            <!-- Room & Device Code Card -->
-            <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
-                <div class="flex justify-between items-center mb-3">
-                    <h2 class="text-sm sm:text-base font-semibold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-mobile-screen text-brand-400"></i> Your Device Code
-                    </h2>
-                    <button onclick="copyMyLink()" title="Copy Link" class="touch-action-btn text-xs bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-300 px-3 py-1.5 rounded-xl transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-link text-brand-400"></i> Copy Link
-                    </button>
-                </div>
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 pb-24">
 
-                <div class="bg-slate-900/90 rounded-xl p-3.5 sm:p-4 border border-slate-800 flex items-center justify-between mb-3">
-                    <div class="truncate mr-2">
-                        <p class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Your Unique Room Code</p>
-                        <p id="myPeerId" class="text-lg sm:text-xl font-mono font-bold text-brand-400 tracking-wider truncate">Generating...</p>
-                    </div>
-                    <div class="flex items-center gap-1.5 shrink-0">
-                        <button onclick="copyMyId()" class="touch-action-btn p-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 rounded-xl text-slate-300 hover:text-white transition" title="Copy Code">
-                            <i class="fa-regular fa-copy text-sm sm:text-base"></i>
-                        </button>
-                        <button onclick="toggleQRModal()" class="touch-action-btn p-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 rounded-xl text-slate-300 hover:text-white transition" title="Show QR Code">
-                            <i class="fa-solid fa-qrcode text-sm sm:text-base"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between text-[11px] sm:text-xs text-slate-400 pt-0.5">
-                    <span class="flex items-center gap-1.5 truncate">
-                        <i class="fa-solid fa-shield-halved text-emerald-400 shrink-0"></i> Encrypted Direct WebRTC
-                    </span>
-                    <span class="text-slate-500 font-mono text-[10px] sm:text-[11px] shrink-0" id="peerEngineStatus">Engine: WebRTC</span>
-                </div>
+        <!-- STEP 1: Online Connection View (Shown by default) -->
+        <div id="connectionStepView" class="space-y-6 max-w-xl mx-auto">
+            <div class="text-center space-y-2">
+                <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Connect to Start Transfer</h1>
+                <p class="text-xs sm:text-sm text-slate-400">Share your device code or connect to a partner to unlock direct file sharing.</p>
             </div>
 
-            <!-- Connect to Partner Card -->
-            <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
-                <h2 class="text-sm sm:text-base font-semibold text-white mb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-network-wired text-brand-400"></i> Connect to Partner
-                </h2>
+            <!-- Unified Room Code & Partner Connection Card -->
+            <div class="glass-panel border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden space-y-6">
+                
+                <!-- Section 1: Your Device Code -->
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-sm sm:text-base font-semibold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-mobile-screen text-brand-400"></i> Your Device Code
+                        </h2>
+                        <button onclick="copyMyLink()" title="Copy Link" class="touch-action-btn text-xs bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-300 px-3 py-1.5 rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-link text-brand-400"></i> Copy Link
+                        </button>
+                    </div>
 
-                <form onsubmit="connectToPeer(event)" class="space-y-3">
-                    <div>
-                        <label for="remoteIdInput" class="block text-xs font-medium text-slate-400 mb-1.5">Enter Partner's Room Code</label>
-                        <div class="flex flex-col xs:flex-row gap-2">
-                            <input type="text" id="remoteIdInput" placeholder="e.g. nirnoy-9a2f1" required
-                                class="flex-1 min-w-0 bg-slate-900 border border-slate-700 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-3.5 py-2.5 text-sm font-mono text-white placeholder-slate-500 outline-none transition">
-                            <div class="flex items-center gap-2">
-                                <button type="button" onclick="openCameraScanner()" title="Scan QR Code with Camera"
-                                    class="touch-action-btn flex-1 xs:flex-none bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-brand-400 hover:text-brand-300 px-3.5 py-2.5 rounded-xl text-sm font-medium transition flex items-center justify-center gap-2">
-                                    <i class="fa-solid fa-camera text-base"></i>
-                                    <span class="xs:hidden text-xs text-slate-200">Camera Scan</span>
-                                </button>
-                                <button type="submit" id="connectBtn" 
-                                    class="touch-action-btn flex-1 xs:flex-none bg-brand-600 hover:bg-brand-500 active:scale-95 text-white font-medium px-4 sm:px-5 py-2.5 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20 shrink-0">
-                                    <i class="fa-solid fa-plug"></i> Connect
-                                </button>
-                            </div>
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 flex items-center justify-between mb-2">
+                        <div class="truncate mr-2">
+                            <p class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Your Device Code</p>
+                            <p id="myPeerId" class="text-3xl sm:text-4xl font-mono font-bold text-brand-400 tracking-widest truncate">Generating...</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button onclick="copyMyId()" class="touch-action-btn p-3 bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 rounded-xl text-slate-300 hover:text-white transition" title="Copy Code">
+                                <i class="fa-regular fa-copy text-base"></i>
+                            </button>
+                            <button onclick="toggleQRModal()" class="touch-action-btn p-3 bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 rounded-xl text-slate-300 hover:text-white transition" title="Show QR Code">
+                                <i class="fa-solid fa-qrcode text-base"></i>
+                            </button>
                         </div>
                     </div>
-                </form>
 
-                <!-- Connected Peers List -->
-                <div class="mt-4 pt-4 border-t border-slate-800">
-                    <div class="flex justify-between items-center mb-2.5">
-                        <h3 class="text-xs font-bold uppercase text-slate-400 tracking-wider">Active Connections (<span id="peerCount">0</span>)</h3>
-                    </div>
-                    <div id="connectedPeersList" class="space-y-2">
-                        <p id="noPeersText" class="text-xs text-slate-500 italic py-1">No partner connected. Enter code or tap camera scan.</p>
+                    <div class="flex items-center justify-between text-[11px] sm:text-xs text-slate-400">
+                        <span class="flex items-center gap-1.5 truncate">
+                            <i class="fa-solid fa-shield-halved text-emerald-400 shrink-0"></i> Encrypted
+                        </span>
+
                     </div>
                 </div>
+
+                <!-- Divider -->
+                <div class="border-t border-slate-800 pt-2"></div>
+
+                <!-- Section 2: Connect to Partner -->
+                <div>
+                    <h2 class="text-sm sm:text-base font-semibold text-white mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-network-wired text-brand-400"></i> Connect to Partner
+                    </h2>
+
+                    <form onsubmit="connectToPeer(event)" class="space-y-3">
+                        <div>
+                            <label for="remoteIdInput" class="block text-xs font-medium text-slate-400 mb-1.5">Enter Partner's Device Code</label>
+                            <div class="flex flex-col xs:flex-row gap-2">
+                                <input type="text" id="remoteIdInput" placeholder="e.g. 4821A" required
+                                    class="flex-1 min-w-0 bg-slate-900 border border-slate-700 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-xl px-3.5 py-3 text-lg tracking-widest font-mono text-white placeholder-slate-600 outline-none transition uppercase">
+                                <div class="flex items-center gap-2">
+                                    <button type="button" onclick="openCameraScanner()" title="Scan QR Code with Camera"
+                                        class="touch-action-btn flex-1 xs:flex-none bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-brand-400 hover:text-brand-300 px-3.5 py-3 rounded-xl text-sm font-medium transition flex items-center justify-center gap-2">
+                                        <i class="fa-solid fa-camera text-base"></i>
+                                        <span class="xs:hidden text-xs text-slate-200">Camera Scan</span>
+                                    </button>
+                                    <button type="submit" id="connectBtn" 
+                                        class="touch-action-btn flex-1 xs:flex-none bg-brand-600 hover:bg-brand-500 active:scale-95 text-white font-medium px-5 py-3 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20 shrink-0">
+                                        <i class="fa-solid fa-plug"></i> Connect
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
             </div>
 
-            <!-- Instant Text / Notes Share Card -->
-            <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
-                <h2 class="text-sm sm:text-base font-semibold text-white mb-2.5 flex items-center gap-2">
-                    <i class="fa-solid fa-comment-dots text-brand-400"></i> Text & Link Share
-                </h2>
-                <div class="space-y-2.5">
-                    <textarea id="textShareInput" rows="2" placeholder="Type or paste report link, notes, patient ID..." 
-                        class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:border-brand-500 outline-none resize-none transition"></textarea>
-                    <div class="flex justify-end">
-                        <button onclick="sendQuickText()" class="touch-action-btn bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-white font-medium px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
-                            <i class="fa-solid fa-paper-plane text-brand-400"></i> Send Text
-                        </button>
+            <!-- Step-by-Step Graphical Tutorial -->
+            <div class="mt-8 relative max-w-xl mx-auto">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">How to Connect</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-2 relative">
+                    
+                    <!-- Background Connector Line for Desktop -->
+                    <div class="hidden sm:block absolute top-[28px] left-[15%] right-[15%] h-[2px] bg-slate-800 z-0 border-b border-slate-700/50"></div>
+
+                    <!-- Tutorial Step 1 -->
+                    <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 text-center relative z-10 hover:border-slate-700 transition duration-300">
+                        <div class="w-12 h-12 mx-auto bg-slate-950 rounded-full flex items-center justify-center text-slate-300 mb-3 border-2 border-slate-700 shadow-inner">
+                            <span class="text-sm font-bold">1</span>
+                        </div>
+                        <div class="h-10 flex items-center justify-center mb-1">
+                            <i class="fa-solid fa-laptop-mobile text-2xl text-slate-400"></i>
+                        </div>
+                        <h4 class="text-xs font-bold text-white mb-1">Open Air Transfer</h4>
+                        <p class="text-[10px] text-slate-500 leading-relaxed">Load this website on both the sending and receiving devices.</p>
                     </div>
+
+                    <!-- Tutorial Step 2 -->
+                    <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 text-center relative z-10 hover:border-brand-500/50 transition duration-300 group">
+                        <div class="w-12 h-12 mx-auto bg-brand-950 rounded-full flex items-center justify-center text-brand-400 mb-3 border-2 border-brand-500/50 shadow-[0_0_15px_rgba(239,68,68,0.2)] group-hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] transition">
+                            <span class="text-sm font-bold">2</span>
+                        </div>
+                        <div class="h-10 flex items-center justify-center mb-1 gap-3">
+                            <i class="fa-solid fa-keyboard text-xl text-brand-400"></i>
+                            <span class="text-slate-600 text-xs font-bold">OR</span>
+                            <i class="fa-solid fa-qrcode text-2xl text-brand-400"></i>
+                        </div>
+                        <h4 class="text-xs font-bold text-white mb-1">Match Code</h4>
+                        <p class="text-[10px] text-slate-500 leading-relaxed">Type the 5-character room code or scan the QR code to pair.</p>
+                    </div>
+
+                    <!-- Tutorial Step 3 -->
+                    <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 text-center relative z-10 hover:border-emerald-500/50 transition duration-300 group">
+                        <div class="w-12 h-12 mx-auto bg-emerald-950 rounded-full flex items-center justify-center text-emerald-400 mb-3 border-2 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.15)] group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition">
+                            <span class="text-sm font-bold">3</span>
+                        </div>
+                        <div class="h-10 flex items-center justify-center mb-1">
+                            <i class="fa-solid fa-paper-plane text-2xl text-emerald-400 group-hover:-translate-y-1 transition transform"></i>
+                        </div>
+                        <h4 class="text-xs font-bold text-white mb-1">Start Transferring</h4>
+                        <p class="text-[10px] text-slate-500 leading-relaxed">Directly share files, text, and photos instantly with zero cloud limits.</p>
+                    </div>
+
                 </div>
             </div>
 
         </div>
 
-        <!-- Right Column: File & Camera Upload Zone, Activity Feed -->
-        <div class="lg:col-span-7 space-y-4 sm:space-y-6">
-
-            <!-- Mobile Drag & Camera File Pickup Area -->
-            <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
-                <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)"
-                    class="border-2 border-dashed border-slate-700 hover:border-brand-500/70 rounded-2xl p-5 sm:p-8 text-center transition-all duration-200 bg-slate-900/50 relative group">
-                    
-                    <!-- File input for general files -->
-                    <input type="file" id="fileInput" multiple onchange="handleFileSelect(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
-                    
-                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-slate-800/90 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-slate-700/80 group-hover:scale-105 transition duration-300 shadow-lg group-hover:border-brand-500">
-                        <i class="fa-solid fa-cloud-arrow-up text-2xl sm:text-3xl text-brand-400"></i>
-                    </div>
-
-                    <h3 class="text-sm sm:text-base font-semibold text-white mb-1">Tap or Drop files here to send</h3>
-                    <p class="text-[11px] sm:text-xs text-slate-400 mb-4">Medical reports, DICOMs, PDFs, images or videos</p>
-
-                    <!-- Mobile Camera Direct Capture Buttons -->
-                    <div class="flex flex-wrap items-center justify-center gap-2 relative z-20">
-                        <label for="cameraCaptureInput" class="touch-action-btn bg-brand-600/90 hover:bg-brand-600 active:scale-95 text-white text-xs font-semibold px-3.5 py-2 rounded-xl cursor-pointer transition flex items-center gap-2 shadow-md">
-                            <i class="fa-solid fa-camera"></i>
-                            <span>Take Photo / Scan</span>
-                            <input type="file" id="cameraCaptureInput" accept="image/*,video/*" capture="environment" onchange="handleCameraCapture(event)" class="hidden">
-                        </label>
-                        
-                        <label for="fileInput" class="touch-action-btn bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-200 text-xs font-medium px-3.5 py-2 rounded-xl cursor-pointer transition flex items-center gap-2">
-                            <i class="fa-solid fa-folder-open text-brand-400"></i>
-                            <span>Browse Device</span>
-                        </label>
+        <!-- STEP 2: File Transfer & Management View (Hidden until connected) -->
+        <div id="transferStepView" class="hidden space-y-6">
+            
+            <!-- Top bar with active connection indicator and Exit button -->
+            <div class="glass-panel border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow-lg">
+                <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
+                    <div>
+                        <p class="text-xs font-bold text-white uppercase tracking-wider">Connected Session</p>
+                        <p id="activeSessionPeerId" class="text-xs font-mono text-brand-400">Active Partner: None</p>
                     </div>
                 </div>
-
-                <!-- Selected Files Pending Queue -->
-                <div id="fileQueueSection" class="mt-4 sm:mt-5 hidden">
-                    <div class="flex justify-between items-center mb-2.5">
-                        <h4 class="text-xs font-bold uppercase text-slate-300 tracking-wider">Queue (<span id="fileQueueCount">0</span>)</h4>
-                        <button onclick="clearFileQueue()" class="text-xs text-red-400 hover:text-red-300 transition p-1">Clear queue</button>
-                    </div>
-                    
-                    <div id="fileQueueList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
-
-                    <div class="mt-4 flex justify-end">
-                        <button onclick="sendQueuedFiles()" id="sendFilesBtn" disabled
-                            class="touch-action-btn bg-brand-600 hover:bg-brand-500 disabled:bg-slate-800 disabled:text-slate-500 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition flex items-center gap-2 shadow-lg shadow-brand-500/20 active:scale-95 w-full xs:w-auto justify-center">
-                            <i class="fa-solid fa-share-nodes"></i> Start Transfer
-                        </button>
-                    </div>
-                </div>
+                <button onclick="exitSession()" class="touch-action-btn bg-rose-950/30 hover:bg-rose-900/50 active:scale-95 border border-rose-800/50 text-xs text-rose-300 hover:text-rose-200 px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-right-from-bracket"></i> Exit
+                </button>
             </div>
 
-            <!-- Active Live Transfers Card -->
-            <div id="activeTransfersCard" class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl hidden">
-                <h2 class="text-sm sm:text-base font-semibold text-white mb-3.5 flex items-center gap-2">
-                    <i class="fa-solid fa-spinner text-brand-400 animate-spin"></i> Live Transfers
-                </h2>
-                <div id="activeTransfersList" class="space-y-3"></div>
-            </div>
-
-            <!-- Transfer Activity & History Log -->
-            <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
-                <div class="flex justify-between items-center mb-3.5">
-                    <h2 class="text-sm sm:text-base font-semibold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-clock-rotate-left text-brand-400"></i> Transfer Activity Log
+            <!-- SEND TAB CONTENT -->
+            <div id="sendView" class="space-y-6 block">
+                <!-- Instant Text / Notes Share Card -->
+                <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
+                    <h2 class="text-sm sm:text-base font-semibold text-white mb-2.5 flex items-center gap-2">
+                        <i class="fa-solid fa-comment-dots text-brand-400"></i> Text & Link Share
                     </h2>
-                    <button onclick="clearHistory()" class="text-xs text-slate-400 hover:text-white transition p-1">Clear Log</button>
+                    <div class="space-y-2.5">
+                        <textarea id="textShareInput" rows="2" placeholder="Type or paste links, notes, messages..." 
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:border-brand-500 outline-none resize-none transition"></textarea>
+                        <div class="flex justify-end">
+                            <button onclick="sendQuickText()" class="touch-action-btn bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-white font-medium px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
+                                <i class="fa-solid fa-paper-plane text-brand-400"></i> Send Text
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <div id="historyList" class="space-y-2.5">
-                    <p id="emptyHistoryText" class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages transferred yet.</p>
+                <!-- Mobile Drag & Camera File Pickup Area -->
+                <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
+                    <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)"
+                        class="border-2 border-dashed border-slate-700 hover:border-brand-500/70 rounded-2xl p-5 sm:p-8 text-center transition-all duration-200 bg-slate-900/50 relative group">
+                        
+                        <!-- File input for general files -->
+                        <input type="file" id="fileInput" multiple onchange="handleFileSelect(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                        
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-slate-800/90 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-slate-700/80 group-hover:scale-105 transition duration-300 shadow-lg group-hover:border-brand-500">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl sm:text-3xl text-brand-400"></i>
+                        </div>
+
+                        <h3 class="text-sm sm:text-base font-semibold text-white mb-1">Tap or Drop files here to send</h3>
+                        <p class="text-[11px] sm:text-xs text-slate-400 mb-4">Documents, archives, PDFs, images or videos</p>
+
+                        <!-- Mobile Camera Direct Capture Buttons -->
+                        <div class="flex flex-wrap items-center justify-center gap-2 relative z-20">
+                            <label for="cameraCaptureInput" class="touch-action-btn bg-brand-600/90 hover:bg-brand-600 active:scale-95 text-white text-xs font-semibold px-3.5 py-2 rounded-xl cursor-pointer transition flex items-center gap-2 shadow-md">
+                                <i class="fa-solid fa-camera"></i>
+                                <span>Take Photo / Scan</span>
+                                <input type="file" id="cameraCaptureInput" accept="image/*,video/*" capture="environment" onchange="handleCameraCapture(event)" class="hidden">
+                            </label>
+                            
+                            <label for="fileInput" class="touch-action-btn bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-200 text-xs font-medium px-3.5 py-2 rounded-xl cursor-pointer transition flex items-center gap-2">
+                                <i class="fa-solid fa-folder-open text-brand-400"></i>
+                                <span>Browse Device</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Selected Files Pending Queue -->
+                    <div id="fileQueueSection" class="mt-4 sm:mt-5 hidden">
+                        <div class="flex justify-between items-center mb-2.5">
+                            <h4 class="text-xs font-bold uppercase text-slate-300 tracking-wider">Queue (<span id="fileQueueCount">0</span>)</h4>
+                            <button onclick="clearFileQueue()" class="text-xs text-red-400 hover:text-red-300 transition p-1">Clear queue</button>
+                        </div>
+                        
+                        <div id="fileQueueList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+
+                        <div class="mt-4 flex justify-end">
+                            <button onclick="sendQueuedFiles()" id="sendFilesBtn" disabled
+                                class="touch-action-btn bg-brand-600 hover:bg-brand-500 disabled:bg-slate-800 disabled:text-slate-500 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition flex items-center gap-2 shadow-lg shadow-brand-500/20 active:scale-95 w-full xs:w-auto justify-center">
+                                <i class="fa-solid fa-share-nodes"></i> Start Transfer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Uploads List -->
+                <div id="activeUploadsCard" class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl hidden">
+                    <h2 class="text-sm sm:text-base font-semibold text-white mb-3.5 flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-up text-brand-400"></i> Active Uploads
+                    </h2>
+                    <div id="activeUploadsList" class="space-y-3"></div>
+                </div>
+
+                <!-- Sent Activity & History Log -->
+                <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
+                    <div class="flex justify-between items-center mb-3.5">
+                        <h2 class="text-sm sm:text-base font-semibold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left text-brand-400"></i> Sent History
+                        </h2>
+                        <button onclick="clearHistory('sent')" class="text-xs text-slate-400 hover:text-white transition p-1">Clear Log</button>
+                    </div>
+
+                    <div id="sentHistoryList" class="space-y-2.5">
+                        <p class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages sent yet.</p>
+                    </div>
                 </div>
             </div>
 
+            <!-- RECEIVE TAB CONTENT -->
+            <div id="receiveView" class="space-y-6 hidden">
+                <!-- Active Downloads List -->
+                <div id="activeDownloadsCard" class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl hidden">
+                    <h2 class="text-sm sm:text-base font-semibold text-white mb-3.5 flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-down text-emerald-400 animate-bounce"></i> Active Downloads
+                    </h2>
+                    <div id="activeDownloadsList" class="space-y-3"></div>
+                </div>
+
+                <!-- Received Activity & History Log -->
+                <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
+                    <div class="flex justify-between items-center mb-3.5">
+                        <h2 class="text-sm sm:text-base font-semibold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left text-brand-400"></i> Received History
+                        </h2>
+                        <button onclick="clearHistory('received')" class="text-xs text-slate-400 hover:text-white transition p-1">Clear Log</button>
+                    </div>
+
+                    <div id="receivedHistoryList" class="space-y-2.5">
+                        <p class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages received yet.</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </main>
 
+    <!-- Bottom Navigation Tabs (Hidden until connected) -->
+    <nav id="bottomNav" class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800/80 z-40 hidden" style="padding-bottom: env(safe-area-inset-bottom);">
+        <div class="flex max-w-4xl mx-auto h-16">
+            <button onclick="switchTab('send')" id="navSend" class="flex-1 flex flex-col items-center justify-center text-brand-500 bg-slate-800/50 border-t-2 border-brand-500 gap-1 transition-all duration-200">
+                <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wider">Send File</span>
+            </button>
+            <div class="w-px bg-slate-800 my-2"></div>
+            <button onclick="switchTab('receive')" id="navReceive" class="flex-1 flex flex-col items-center justify-center text-slate-500 border-t-2 border-transparent hover:text-slate-300 gap-1 transition-all duration-200">
+                <i class="fa-solid fa-download text-lg"></i>
+                <span class="text-[10px] font-medium uppercase tracking-wider">Received Files</span>
+            </button>
+        </div>
+    </nav>
+
     <!-- Footer -->
-    <footer class="border-t border-slate-800/80 py-4 text-center text-[11px] sm:text-xs text-slate-500 px-4 mt-auto">
-        NIRNOY DIAGNOSTICS &bull; Secure Encrypted Direct Data Transfer System
+    <footer class="border-t border-slate-800/80 py-4 text-center text-[11px] sm:text-xs text-slate-500 px-4 mt-auto mb-16">
+        Air Transfer &bull; Secure Encrypted Direct Data Transfer System
     </footer>
+
+    <!-- New Online Connection Popup Modal -->
+    <div id="connectionPopupModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="glass-panel border border-emerald-500/40 rounded-3xl p-6 max-w-sm w-full text-center relative shadow-2xl space-y-4">
+            <div class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center mx-auto border border-emerald-500/30 text-2xl animate-bounce">
+                <i class="fa-solid fa-link"></i>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-white mb-1">Partner Connected!</h3>
+                <p id="popupPeerText" class="text-xs text-slate-300">Successfully connected to device.</p>
+            </div>
+            <button onclick="closeConnectionPopup()" class="touch-action-btn w-full bg-brand-600 hover:bg-brand-500 text-white font-medium py-2.5 rounded-xl text-xs transition active:scale-95 shadow-lg shadow-brand-500/20">
+                Proceed to File Transfer
+            </button>
+        </div>
+    </div>
 
     <!-- QR Code Display Modal -->
     <div id="qrModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
@@ -321,7 +444,7 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <h3 class="text-base sm:text-lg font-bold text-white mb-1">Scan Room Code</h3>
-            <p class="text-xs text-slate-400 mb-4">Scan with mobile camera to connect immediately</p>
+            <p class="text-xs text-slate-400 mb-4">Scan with in-app scanner or standard mobile camera</p>
 
             <div class="bg-white p-3.5 sm:p-4 rounded-2xl inline-block shadow-inner mb-3.5">
                 <div id="qrcode" class="flex justify-center"></div>
@@ -341,7 +464,7 @@
             <h3 class="text-base sm:text-lg font-bold text-white mb-1 flex items-center justify-center gap-2">
                 <i class="fa-solid fa-camera text-brand-400"></i> Camera QR Scanner
             </h3>
-            <p class="text-xs text-slate-400 mb-3">Point camera at a NIRNOY DIAGNOSTICS room code</p>
+            <p class="text-xs text-slate-400 mb-3">Point camera at an Air Transfer room code</p>
 
             <!-- Camera Permission Status Alert -->
             <div id="cameraAlert" class="hidden mb-3 bg-amber-950/80 border border-amber-700/60 p-2.5 rounded-xl text-amber-200 text-xs text-left flex items-start gap-2">
@@ -368,7 +491,7 @@
     </div>
 
     <!-- Toast Notification Container -->
-    <div id="toastContainer" class="fixed bottom-4 right-4 left-4 sm:left-auto sm:max-w-md z-50 space-y-2 pointer-events-none"></div>
+    <div id="toastContainer" class="fixed bottom-4 right-4 left-4 sm:left-auto sm:max-w-md z-50 space-y-2 pointer-events-none mb-16"></div>
 
     <!-- Main Logic Script -->
     <script>
@@ -393,10 +516,44 @@
             initPeer();
         };
 
+        function generateRoomCode() {
+            let code = '';
+            for (let i = 0; i < 4; i++) {
+                code += Math.floor(Math.random() * 10).toString();
+            }
+            const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
+            const insertPos = Math.floor(Math.random() * 5);
+            return code.slice(0, insertPos) + letter + code.slice(insertPos);
+        }
+
+        function switchTab(tab) {
+            const sendView = document.getElementById('sendView');
+            const receiveView = document.getElementById('receiveView');
+            const navSend = document.getElementById('navSend');
+            const navReceive = document.getElementById('navReceive');
+
+            const activeClass = "flex-1 flex flex-col items-center justify-center text-brand-500 bg-slate-800/50 border-t-2 border-brand-500 gap-1 transition-all duration-200";
+            const inactiveClass = "flex-1 flex flex-col items-center justify-center text-slate-500 border-t-2 border-transparent hover:text-slate-300 gap-1 transition-all duration-200";
+
+            if (tab === 'send') {
+                sendView.classList.remove('hidden');
+                receiveView.classList.add('hidden');
+                
+                navSend.className = activeClass;
+                navReceive.className = inactiveClass;
+            } else {
+                receiveView.classList.remove('hidden');
+                sendView.classList.add('hidden');
+                
+                navReceive.className = activeClass;
+                navSend.className = inactiveClass;
+            }
+        }
+
         function initBroadcastChannel() {
             try {
                 if ('BroadcastChannel' in window) {
-                    broadcastChannel = new BroadcastChannel('nirnoy_local_channel');
+                    broadcastChannel = new BroadcastChannel('air_transfer_local_channel');
                     broadcastChannel.onmessage = (event) => {
                         handleBroadcastMessage(event.data);
                     };
@@ -409,13 +566,11 @@
         function initPeer() {
             updateStatus('connecting', 'Connecting...');
             
-            const randomId = 'nirnoy-' + Math.random().toString(36).substring(2, 7);
-            myId = randomId;
+            myId = generateRoomCode();
             document.getElementById('myPeerId').innerText = myId;
             generateQRCode();
 
             try {
-                // Public ICE / STUN servers for robust cross-network P2P connections
                 peer = new Peer(myId, {
                     debug: 1,
                     config: {
@@ -440,6 +595,13 @@
                 });
 
                 peer.on('connection', (conn) => {
+                    if (Object.keys(activeConnections).length >= 1) {
+                        conn.on('open', () => {
+                            conn.send({ type: 'text-message', content: 'Connection declined: Device is already connected to another partner.', timestamp: new Date() });
+                            setTimeout(() => conn.close(), 1000);
+                        });
+                        return;
+                    }
                     setupConnectionListeners(conn);
                 });
 
@@ -487,6 +649,9 @@
             if (data.targetPeerId !== myId) return;
 
             if (data.type === 'tab-connect-request') {
+                if (Object.keys(activeConnections).length >= 1) {
+                    return;
+                }
                 registerLocalTabPeer(data.senderPeerId);
                 broadcastChannel.postMessage({
                     type: 'tab-connect-ack',
@@ -518,27 +683,31 @@
                     close: () => {
                         delete activeConnections[peerId];
                         updatePeersUI();
+                        if (Object.keys(activeConnections).length === 0) {
+                            backToConnectionStep();
+                        }
                     }
                 };
                 updatePeersUI();
-                showToast(`Connected to tab: ${peerId}`, 'success');
+                triggerConnectionPopup(peerId);
                 document.getElementById('remoteIdInput').value = '';
-                updateStatus('connected', `Connected (${Object.keys(activeConnections).length})`);
+                updateStatus('connected', 'Connected');
             }
         }
 
         function connectToPeer(e) {
             if (e) e.preventDefault();
-            const remoteId = document.getElementById('remoteIdInput').value.trim();
+            
+            if (Object.keys(activeConnections).length >= 1) {
+                showToast('Only one connection is allowed at a time. Please exit current session first.', 'warning');
+                return;
+            }
+
+            const remoteId = document.getElementById('remoteIdInput').value.trim().toUpperCase();
 
             if (!remoteId) return;
             if (remoteId === myId) {
                 showToast('Cannot connect to your own device code', 'warning');
-                return;
-            }
-
-            if (activeConnections[remoteId]) {
-                showToast('Already connected to this partner', 'info');
                 return;
             }
 
@@ -573,9 +742,9 @@
             conn.on('open', () => {
                 activeConnections[conn.peer] = conn;
                 updatePeersUI();
-                showToast(`Connected to ${conn.peer}`, 'success');
+                triggerConnectionPopup(conn.peer);
                 document.getElementById('remoteIdInput').value = '';
-                updateStatus('connected', `Connected (${Object.keys(activeConnections).length})`);
+                updateStatus('connected', 'Connected');
             });
 
             conn.on('data', (data) => {
@@ -588,6 +757,7 @@
                 showToast(`Disconnected from ${conn.peer}`, 'info');
                 if (Object.keys(activeConnections).length === 0) {
                     updateStatus('ready', isSandboxMode ? 'Local Tab Bridge Active' : 'Ready for Connection');
+                    backToConnectionStep();
                 }
             });
 
@@ -597,41 +767,55 @@
             });
         }
 
-        function updatePeersUI() {
-            const peersList = document.getElementById('connectedPeersList');
-            const peerCount = document.getElementById('peerCount');
-            const sendBtn = document.getElementById('sendFilesBtn');
-
-            const keys = Object.keys(activeConnections);
-            peerCount.innerText = keys.length;
-
-            if (keys.length === 0) {
-                peersList.innerHTML = `<p id="noPeersText" class="text-xs text-slate-500 italic py-1">No partner connected. Enter code or tap camera scan.</p>`;
-                if (fileQueue.length > 0) sendBtn.disabled = true;
-                return;
-            }
-
-            peersList.innerHTML = keys.map(peerId => `
-                <div class="flex justify-between items-center bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs">
-                    <span class="font-mono text-brand-400 font-semibold flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        ${peerId}
-                    </span>
-                    <button onclick="disconnectPeer('${peerId}')" class="text-slate-500 hover:text-red-400 transition p-1" title="Disconnect">
-                        <i class="fa-solid fa-xmark text-sm"></i>
-                    </button>
-                </div>
-            `).join('');
-
-            if (fileQueue.length > 0) sendBtn.disabled = false;
+        function triggerConnectionPopup(peerId) {
+            document.getElementById('popupPeerText').innerText = `Successfully connected to partner: ${peerId}`;
+            document.getElementById('connectionPopupModal').classList.remove('hidden');
         }
 
-        function disconnectPeer(peerId) {
-            if (activeConnections[peerId]) {
-                activeConnections[peerId].close();
-                delete activeConnections[peerId];
-                updatePeersUI();
+        function closeConnectionPopup() {
+            document.getElementById('connectionPopupModal').classList.add('hidden');
+            switchToTransferStep();
+        }
+
+        function switchToTransferStep() {
+            const keys = Object.keys(activeConnections);
+            if (keys.length > 0) {
+                document.getElementById('activeSessionPeerId').innerText = `Active Partner: ${keys.join(', ')}`;
             }
+            document.getElementById('connectionStepView').classList.add('hidden');
+            document.getElementById('transferStepView').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.remove('hidden');
+            switchTab('send');
+        }
+
+        function backToConnectionStep() {
+            document.getElementById('transferStepView').classList.add('hidden');
+            document.getElementById('connectionStepView').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.add('hidden');
+        }
+
+        function exitSession() {
+            const peers = Object.values(activeConnections);
+            for (let conn of peers) {
+                conn.close();
+            }
+            activeConnections = {};
+            activeTransfers = {};
+            
+            document.getElementById('activeUploadsList').innerHTML = '';
+            document.getElementById('activeDownloadsList').innerHTML = '';
+            document.getElementById('activeUploadsCard').classList.add('hidden');
+            document.getElementById('activeDownloadsCard').classList.add('hidden');
+
+            updatePeersUI();
+            backToConnectionStep();
+            updateStatus('ready', isSandboxMode ? 'Local Tab Bridge Active' : 'Ready for Connection');
+            showToast('Exited session securely.', 'success');
+        }
+
+        function updatePeersUI() {
+            const sendBtn = document.getElementById('sendFilesBtn');
+            if (sendBtn) sendBtn.disabled = (Object.keys(activeConnections).length === 0);
         }
 
         async function openCameraScanner() {
@@ -642,7 +826,6 @@
             modal.classList.remove('hidden');
             alertBox.classList.add('hidden');
 
-            // Check browser mediaDevices support
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 alertBox.classList.remove('hidden');
                 alertText.innerText = "Camera access is restricted or not supported by this browser protocol.";
@@ -670,9 +853,7 @@
                     { facingMode: facingMode },
                     config,
                     onScanSuccess,
-                    (errorMessage) => {
-                        // Continuous scanning log (ignored)
-                    }
+                    (errorMessage) => {}
                 );
             } catch (err) {
                 console.warn("Camera start warning:", err);
@@ -693,21 +874,28 @@
             showToast(`Switched to ${currentFacingMode === "user" ? "Front" : "Back"} Camera`, 'info');
         }
 
+        /* Type 1 In-Web Camera Scanner Handler: Extract raw 5-char code and connect */
         function onScanSuccess(decodedText) {
-            let roomId = decodedText;
-            if (decodedText.includes('room=')) {
+            let roomId = decodedText.trim();
+
+            if (roomId.includes('room=')) {
                 try {
-                    const url = new URL(decodedText);
-                    roomId = url.searchParams.get('room') || decodedText;
+                    const parsedUrl = new URL(roomId);
+                    roomId = parsedUrl.searchParams.get('room') || roomId;
                 } catch(e) {
-                    const match = decodedText.match(/room=([a-zA-Z0-9_-]+)/);
+                    const match = roomId.match(/room=([a-zA-Z0-9]+)/);
                     if (match) roomId = match[1];
                 }
+            } else if (roomId.includes('?')) {
+                const match = roomId.match(/([a-zA-Z0-9]{5})/);
+                if (match) roomId = match[1];
             }
+
+            roomId = roomId.toUpperCase();
 
             document.getElementById('remoteIdInput').value = roomId;
             closeCameraScanner();
-            showToast(`Scanned room code: ${roomId}`, 'success');
+            showToast(`Room code scanned: ${roomId}`, 'success');
             connectToPeer();
         }
 
@@ -729,17 +917,20 @@
 
         function handleDragOver(e) {
             e.preventDefault();
-            document.getElementById('dropZone').classList.add('drag-active');
+            const dropZone = document.getElementById('dropZone');
+            if (dropZone) dropZone.classList.add('drag-active');
         }
 
         function handleDragLeave(e) {
             e.preventDefault();
-            document.getElementById('dropZone').classList.remove('drag-active');
+            const dropZone = document.getElementById('dropZone');
+            if (dropZone) dropZone.classList.remove('drag-active');
         }
 
         function handleDrop(e) {
             e.preventDefault();
-            document.getElementById('dropZone').classList.remove('drag-active');
+            const dropZone = document.getElementById('dropZone');
+            if (dropZone) dropZone.classList.remove('drag-active');
             if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                 addFilesToQueue(e.dataTransfer.files);
             }
@@ -767,6 +958,8 @@
             const queueCount = document.getElementById('fileQueueCount');
             const sendBtn = document.getElementById('sendFilesBtn');
 
+            if (!queueSection) return;
+
             if (fileQueue.length === 0) {
                 queueSection.classList.add('hidden');
                 return;
@@ -790,7 +983,7 @@
                 </div>
             `).join('');
 
-            sendBtn.disabled = (Object.keys(activeConnections).length === 0);
+            if (sendBtn) sendBtn.disabled = (Object.keys(activeConnections).length === 0);
         }
 
         function removeQueuedFile(id) {
@@ -1004,11 +1197,16 @@
         }
 
         function createActiveTransferUI(info) {
-            const card = document.getElementById('activeTransfersCard');
-            const list = document.getElementById('activeTransfersList');
+            const isUpload = info.direction === 'upload';
+            const cardId = isUpload ? 'activeUploadsCard' : 'activeDownloadsCard';
+            const listId = isUpload ? 'activeUploadsList' : 'activeDownloadsList';
+            
+            const card = document.getElementById(cardId);
+            const list = document.getElementById(listId);
+            if (!card || !list) return;
+            
             card.classList.remove('hidden');
 
-            const isUpload = info.direction === 'upload';
             const iconClass = isUpload ? 'fa-arrow-up text-brand-400' : 'fa-arrow-down text-emerald-400';
 
             const itemHtml = `
@@ -1066,11 +1264,12 @@
         function finishActiveTransfer(transferId) {
             const el = document.getElementById(`transfer-${transferId}`);
             if (el) {
+                const list = el.parentElement;
                 setTimeout(() => {
                     el.remove();
-                    const list = document.getElementById('activeTransfersList');
-                    if (list.children.length === 0) {
-                        document.getElementById('activeTransfersCard').classList.add('hidden');
+                    if (list && list.children.length === 0) {
+                        const card = list.parentElement;
+                        if (card) card.classList.add('hidden');
                     }
                 }, 800);
             }
@@ -1081,63 +1280,84 @@
             renderHistory();
         }
 
-        function renderHistory() {
-            const historyList = document.getElementById('historyList');
-
-            if (historyLog.length === 0) {
-                historyList.innerHTML = `<p id="emptyHistoryText" class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages transferred yet.</p>`;
-                return;
-            }
-
-            historyList.innerHTML = historyLog.map((item) => {
-                if (item.type === 'text') {
-                    return `
-                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs space-y-1.5">
-                            <div class="flex justify-between items-center text-slate-400">
-                                <span class="font-semibold text-brand-400 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-comment-dots"></i> Snippet (${item.direction})
-                                </span>
-                                <span class="text-[10px] font-mono text-slate-500">${item.peerId}</span>
-                            </div>
-                            <p class="text-slate-200 bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80 font-mono select-all break-all">${escapeHtml(item.content)}</p>
-                            <div class="flex justify-end">
-                                <button onclick="copyToClipboard('${escapeHtml(item.content)}')" class="text-[11px] text-slate-400 hover:text-white flex items-center gap-1">
-                                    <i class="fa-regular fa-copy"></i> Copy Text
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }
-
+        function generateHistoryHTML(item) {
+            if (item.type === 'text') {
                 return `
-                    <div class="flex items-center justify-between bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs">
-                        <div class="flex items-center space-x-3 overflow-hidden">
-                            <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center border border-slate-700 shrink-0">
-                                <i class="${getFileIcon(item.name)} text-brand-400"></i>
-                            </div>
-                            <div class="truncate">
-                                <p class="font-medium text-slate-200 truncate">${escapeHtml(item.name)}</p>
-                                <p class="text-slate-500 text-[11px]">${formatBytes(item.size)} &bull; ${item.direction} (${item.peerId})</p>
-                            </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs space-y-1.5">
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span class="font-semibold text-brand-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-comment-dots"></i> Snippet (${item.direction})
+                            </span>
+                            <span class="text-[10px] font-mono text-slate-500">${item.peerId}</span>
                         </div>
-
-                        ${item.downloadUrl ? `
-                            <a href="${item.downloadUrl}" download="${escapeHtml(item.name)}" 
-                                class="bg-brand-600 hover:bg-brand-500 text-white border border-brand-500 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 font-medium shrink-0">
-                                <i class="fa-solid fa-download"></i> Save
-                            </a>
-                        ` : `
-                            <span class="text-[11px] text-emerald-400 font-medium px-2.5 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/20">Sent</span>
-                        `}
+                        <p class="text-slate-200 bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80 font-mono select-all break-all">${escapeHtml(item.content)}</p>
+                        <div class="flex justify-end">
+                            <button onclick="copyToClipboard('${escapeHtml(item.content)}')" class="text-[11px] text-slate-400 hover:text-white flex items-center gap-1">
+                                <i class="fa-regular fa-copy"></i> Copy Text
+                            </button>
+                        </div>
                     </div>
                 `;
-            }).join('');
+            }
+
+            return `
+                <div class="flex items-center justify-between bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs">
+                    <div class="flex items-center space-x-3 overflow-hidden">
+                        <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center border border-slate-700 shrink-0">
+                            <i class="${getFileIcon(item.name)} text-brand-400"></i>
+                        </div>
+                        <div class="truncate">
+                            <p class="font-medium text-slate-200 truncate">${escapeHtml(item.name)}</p>
+                            <p class="text-slate-500 text-[11px]">${formatBytes(item.size)} &bull; ${item.direction} (${item.peerId})</p>
+                        </div>
+                    </div>
+
+                    ${item.downloadUrl ? `
+                        <a href="${item.downloadUrl}" download="${escapeHtml(item.name)}" 
+                            class="bg-brand-600 hover:bg-brand-500 text-white border border-brand-500 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 font-medium shrink-0">
+                            <i class="fa-solid fa-download"></i> Save
+                        </a>
+                    ` : `
+                        <span class="text-[11px] text-emerald-400 font-medium px-2.5 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/20">Sent</span>
+                    `}
+                </div>
+            `;
         }
 
-        function clearHistory() {
-            historyLog = [];
+        function renderHistory() {
+            const sentList = document.getElementById('sentHistoryList');
+            const receivedList = document.getElementById('receivedHistoryList');
+            
+            const sentItems = historyLog.filter(item => item.direction === 'Sent');
+            const receivedItems = historyLog.filter(item => item.direction === 'Received');
+
+            if (sentList) {
+                if (sentItems.length === 0) {
+                    sentList.innerHTML = `<p class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages sent yet.</p>`;
+                } else {
+                    sentList.innerHTML = sentItems.map(generateHistoryHTML).join('');
+                }
+            }
+
+            if (receivedList) {
+                if (receivedItems.length === 0) {
+                    receivedList.innerHTML = `<p class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages received yet.</p>`;
+                } else {
+                    receivedList.innerHTML = receivedItems.map(generateHistoryHTML).join('');
+                }
+            }
+        }
+
+        function clearHistory(type) {
+            if (type === 'sent') {
+                historyLog = historyLog.filter(item => item.direction !== 'Sent');
+            } else if (type === 'received') {
+                historyLog = historyLog.filter(item => item.direction !== 'Received');
+            } else {
+                historyLog = [];
+            }
             renderHistory();
-            showToast('Activity log cleared', 'info');
+            showToast(`${type === 'sent' ? 'Sent' : 'Received'} activity log cleared`, 'info');
         }
 
         function formatBytes(bytes, decimals = 2) {
@@ -1168,6 +1388,7 @@
             const dot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
 
+            if (!statusText || !dot) return;
             statusText.innerText = text;
             dot.className = "w-2.5 h-2.5 rounded-full shrink-0 ";
 
@@ -1199,12 +1420,15 @@
             document.body.removeChild(dummy);
         }
 
+        /* Type 2 QR Code Generator: Embeds full direct connection link for third-party camera apps */
         function generateQRCode() {
             const qrcodeContainer = document.getElementById("qrcode");
+            if (!qrcodeContainer) return;
             qrcodeContainer.innerHTML = "";
 
             const shareUrl = `${window.location.origin}${window.location.pathname}?room=${myId}`;
-            document.getElementById('qrCodeText').innerText = myId;
+            const qrTextEl = document.getElementById('qrCodeText');
+            if (qrTextEl) qrTextEl.innerText = `Room: ${myId}`;
 
             new QRCode(qrcodeContainer, {
                 text: shareUrl,
@@ -1218,20 +1442,22 @@
 
         function toggleQRModal() {
             const modal = document.getElementById('qrModal');
-            modal.classList.toggle('hidden');
+            if (modal) modal.classList.toggle('hidden');
         }
 
         function checkURLParams() {
             const urlParams = new URLSearchParams(window.location.search);
             const roomParam = urlParams.get('room');
             if (roomParam && roomParam !== myId) {
-                document.getElementById('remoteIdInput').value = roomParam;
+                const remoteInput = document.getElementById('remoteIdInput');
+                if (remoteInput) remoteInput.value = roomParam.toUpperCase();
                 showToast(`Auto-filled room code: ${roomParam}`, 'info');
             }
         }
 
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
+            if (!container) return;
             const toast = document.createElement('div');
 
             let icon = 'fa-circle-info text-sky-400';
