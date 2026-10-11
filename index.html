@@ -115,16 +115,28 @@
                 <div class="truncate">
                     <div class="flex items-center gap-1.5 flex-wrap">
                         <span class="font-bold text-base sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-400 truncate">Air Transfer</span>
- 
                     </div>
                 </div>
             </div>
 
             <!-- Connection Status -->
             <div class="flex items-center shrink-0">
-                <div id="connectionBadge" class="flex items-center space-x-1.5 sm:space-x-2 bg-slate-900/90 px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-800 text-xs">
+                <!-- Disconnected / Ready Badge -->
+                <div id="connectionBadge" class="flex items-center space-x-1.5 sm:space-x-2 bg-slate-900/90 px-2.5 sm:px-3 py-1.5 rounded-xl border border-slate-800 text-xs transition-all">
                     <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse shrink-0" id="statusDot"></span>
                     <span id="statusText" class="text-slate-300 font-medium truncate max-w-[90px] xs:max-w-[130px] sm:max-w-[200px] text-[11px] sm:text-xs">Initializing...</span>
+                </div>
+
+                <!-- Active Session Badge (Shown when connected) -->
+                <div id="activeSessionBadge" class="hidden items-center space-x-2 bg-brand-900/30 border border-brand-500/40 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl transition-all">
+                    <div class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></div>
+                    <div class="flex flex-col justify-center">
+                        <span class="text-[8px] sm:text-[9px] font-bold text-slate-300 uppercase tracking-wider leading-none mb-0.5">Active Partner</span>
+                        <span id="headerActivePeerId" class="text-[10px] sm:text-xs font-mono text-brand-400 leading-none truncate max-w-[80px] xs:max-w-[100px] sm:max-w-[150px]">None</span>
+                    </div>
+                    <button onclick="exitSession()" class="ml-1 sm:ml-2 pl-2 sm:pl-3 border-l border-brand-500/30 text-rose-400 hover:text-rose-300 transition shrink-0 h-full" title="Exit Session">
+                        <i class="fa-solid fa-right-from-bracket text-[11px] sm:text-sm"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -139,7 +151,7 @@
     <!-- Main Content Container -->
     <main class="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 pb-24">
 
-        <!-- STEP 1: Online Connection View (Shown by default) -->
+        <!-- STEP 1: Online Connection View -->
         <div id="connectionStepView" class="space-y-6 max-w-xl mx-auto">
             <div class="text-center space-y-2">
                 <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">Connect to Start Transfer</h1>
@@ -179,7 +191,6 @@
                         <span class="flex items-center gap-1.5 truncate">
                             <i class="fa-solid fa-shield-halved text-emerald-400 shrink-0"></i> Encrypted
                         </span>
-
                     </div>
                 </div>
 
@@ -220,11 +231,7 @@
             <div class="mt-8 relative max-w-xl mx-auto">
                 <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">How to Connect</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-2 relative">
-                    
-                    <!-- Background Connector Line for Desktop -->
                     <div class="hidden sm:block absolute top-[28px] left-[15%] right-[15%] h-[2px] bg-slate-800 z-0 border-b border-slate-700/50"></div>
-
-                    <!-- Tutorial Step 1 -->
                     <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 text-center relative z-10 hover:border-slate-700 transition duration-300">
                         <div class="w-12 h-12 mx-auto bg-slate-950 rounded-full flex items-center justify-center text-slate-300 mb-3 border-2 border-slate-700 shadow-inner">
                             <span class="text-sm font-bold">1</span>
@@ -235,8 +242,6 @@
                         <h4 class="text-xs font-bold text-white mb-1">Open Air Transfer</h4>
                         <p class="text-[10px] text-slate-500 leading-relaxed">Load this website on both the sending and receiving devices.</p>
                     </div>
-
-                    <!-- Tutorial Step 2 -->
                     <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 text-center relative z-10 hover:border-brand-500/50 transition duration-300 group">
                         <div class="w-12 h-12 mx-auto bg-brand-950 rounded-full flex items-center justify-center text-brand-400 mb-3 border-2 border-brand-500/50 shadow-[0_0_15px_rgba(239,68,68,0.2)] group-hover:shadow-[0_0_20px_rgba(239,68,68,0.4)] transition">
                             <span class="text-sm font-bold">2</span>
@@ -249,8 +254,6 @@
                         <h4 class="text-xs font-bold text-white mb-1">Match Code</h4>
                         <p class="text-[10px] text-slate-500 leading-relaxed">Type the 5-character room code or scan the QR code to pair.</p>
                     </div>
-
-                    <!-- Tutorial Step 3 -->
                     <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 text-center relative z-10 hover:border-emerald-500/50 transition duration-300 group">
                         <div class="w-12 h-12 mx-auto bg-emerald-950 rounded-full flex items-center justify-center text-emerald-400 mb-3 border-2 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.15)] group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition">
                             <span class="text-sm font-bold">3</span>
@@ -261,86 +264,57 @@
                         <h4 class="text-xs font-bold text-white mb-1">Start Transferring</h4>
                         <p class="text-[10px] text-slate-500 leading-relaxed">Directly share files, text, and photos instantly with zero cloud limits.</p>
                     </div>
-
                 </div>
             </div>
-
         </div>
 
-        <!-- STEP 2: File Transfer & Management View (Hidden until connected) -->
+        <!-- STEP 2: File Transfer & Management View -->
         <div id="transferStepView" class="hidden space-y-6">
             
-            <!-- Top bar with active connection indicator and Exit button -->
-            <div class="glass-panel border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow-lg">
-                <div class="flex items-center space-x-3">
-                    <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
-                    <div>
-                        <p class="text-xs font-bold text-white uppercase tracking-wider">Connected Session</p>
-                        <p id="activeSessionPeerId" class="text-xs font-mono text-brand-400">Active Partner: None</p>
-                    </div>
-                </div>
-                <button onclick="exitSession()" class="touch-action-btn bg-rose-950/30 hover:bg-rose-900/50 active:scale-95 border border-rose-800/50 text-xs text-rose-300 hover:text-rose-200 px-4 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-solid fa-right-from-bracket"></i> Exit
-                </button>
-            </div>
-
             <!-- SEND TAB CONTENT -->
             <div id="sendView" class="space-y-6 block">
+                
                 <!-- Instant Text / Notes Share Card -->
                 <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
-                    <h2 class="text-sm sm:text-base font-semibold text-white mb-2.5 flex items-center gap-2">
-                        <i class="fa-solid fa-comment-dots text-brand-400"></i> Text & Link Share
-                    </h2>
-                    <div class="space-y-2.5">
+                
+                    <div class="flex gap-2.5">
                         <textarea id="textShareInput" rows="2" placeholder="Type or paste links, notes, messages..." 
-                            class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:border-brand-500 outline-none resize-none transition"></textarea>
-                        <div class="flex justify-end">
-                            <button onclick="sendQuickText()" class="touch-action-btn bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-white font-medium px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
-                                <i class="fa-solid fa-paper-plane text-brand-400"></i> Send Text
-                            </button>
-                        </div>
+                            class="flex-1 bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:border-brand-500 outline-none resize-none transition"></textarea>
+                        
+                        <button onclick="sendQuickText()" title="Send Text" class="touch-action-btn self-stretch bg-brand-600 hover:bg-brand-500 active:scale-95 text-white px-5 rounded-xl transition flex items-center justify-center shrink-0 shadow-lg shadow-brand-500/20">
+                            <i class="fa-solid fa-paper-plane text-xl"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Mobile Drag & Camera File Pickup Area -->
                 <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
                     <div id="dropZone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)"
                         class="border-2 border-dashed border-slate-700 hover:border-brand-500/70 rounded-2xl p-5 sm:p-8 text-center transition-all duration-200 bg-slate-900/50 relative group">
                         
-                        <!-- File input for general files -->
-                        <input type="file" id="fileInput" multiple onchange="handleFileSelect(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10">
+                        <input type="file" id="fileInput" multiple onchange="handleFileSelect(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10 hidden">
                         
                         <div class="w-12 h-12 sm:w-16 sm:h-16 bg-slate-800/90 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-slate-700/80 group-hover:scale-105 transition duration-300 shadow-lg group-hover:border-brand-500">
                             <i class="fa-solid fa-cloud-arrow-up text-2xl sm:text-3xl text-brand-400"></i>
                         </div>
-
                         <h3 class="text-sm sm:text-base font-semibold text-white mb-1">Tap or Drop files here to send</h3>
-                        <p class="text-[11px] sm:text-xs text-slate-400 mb-4">Documents, archives, PDFs, images or videos</p>
+                        <p class="text-[11px] sm:text-xs text-slate-400 mb-6">Documents, archives, PDFs, images or videos</p>
 
-                        <!-- Mobile Camera Direct Capture Buttons -->
-                        <div class="flex flex-wrap items-center justify-center gap-2 relative z-20">
-                            <label for="cameraCaptureInput" class="touch-action-btn bg-brand-600/90 hover:bg-brand-600 active:scale-95 text-white text-xs font-semibold px-3.5 py-2 rounded-xl cursor-pointer transition flex items-center gap-2 shadow-md">
-                                <i class="fa-solid fa-camera"></i>
-                                <span>Take Photo / Scan</span>
-                                <input type="file" id="cameraCaptureInput" accept="image/*,video/*" capture="environment" onchange="handleCameraCapture(event)" class="hidden">
-                            </label>
-                            
-                            <label for="fileInput" class="touch-action-btn bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-200 text-xs font-medium px-3.5 py-2 rounded-xl cursor-pointer transition flex items-center gap-2">
-                                <i class="fa-solid fa-folder-open text-brand-400"></i>
+                        <!-- Centered Browse Device Button -->
+                        <div class="flex justify-center relative z-20 mt-4 w-full max-w-xs mx-auto">
+                            <!-- Browse Device (Opens File Picker) -->
+                            <button type="button" onclick="document.getElementById('fileInput').click()" class="touch-action-btn bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-200 text-sm font-medium px-6 py-3 rounded-xl cursor-pointer transition flex items-center justify-center gap-2 w-full text-center shadow-md">
+                                <i class="fa-solid fa-folder-open text-brand-400 text-lg"></i>
                                 <span>Browse Device</span>
-                            </label>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Selected Files Pending Queue -->
                     <div id="fileQueueSection" class="mt-4 sm:mt-5 hidden">
                         <div class="flex justify-between items-center mb-2.5">
                             <h4 class="text-xs font-bold uppercase text-slate-300 tracking-wider">Queue (<span id="fileQueueCount">0</span>)</h4>
                             <button onclick="clearFileQueue()" class="text-xs text-red-400 hover:text-red-300 transition p-1">Clear queue</button>
                         </div>
-                        
                         <div id="fileQueueList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
-
                         <div class="mt-4 flex justify-end">
                             <button onclick="sendQueuedFiles()" id="sendFilesBtn" disabled
                                 class="touch-action-btn bg-brand-600 hover:bg-brand-500 disabled:bg-slate-800 disabled:text-slate-500 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition flex items-center gap-2 shadow-lg shadow-brand-500/20 active:scale-95 w-full xs:w-auto justify-center">
@@ -350,7 +324,6 @@
                     </div>
                 </div>
 
-                <!-- Active Uploads List -->
                 <div id="activeUploadsCard" class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl hidden">
                     <h2 class="text-sm sm:text-base font-semibold text-white mb-3.5 flex items-center gap-2">
                         <i class="fa-solid fa-arrow-up text-brand-400"></i> Active Uploads
@@ -358,24 +331,34 @@
                     <div id="activeUploadsList" class="space-y-3"></div>
                 </div>
 
-                <!-- Sent Activity & History Log -->
+                <!-- Sent Activity & History Log (Tabs) -->
                 <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
-                    <div class="flex justify-between items-center mb-3.5">
-                        <h2 class="text-sm sm:text-base font-semibold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-clock-rotate-left text-brand-400"></i> Sent History
-                        </h2>
+                    <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-sm sm:text-base font-semibold text-white flex items-center gap-2 mr-1">
+                                <i class="fa-solid fa-clock-rotate-left text-brand-400"></i> Sent
+                            </h2>
+                            <!-- Sub Tabs -->
+                            <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+                                <button onclick="switchHistoryTab('sent', 'file')" id="sentTab-file" class="relative px-2.5 py-1 text-[10px] font-medium rounded-md text-white bg-slate-700 transition">
+                                    Files <span id="sentBadge-file" class="ml-1 bg-brand-500 px-1.5 py-0.5 rounded-full text-[8px] text-white">0</span>
+                                </button>
+                                <button onclick="switchHistoryTab('sent', 'text')" id="sentTab-text" class="relative px-2.5 py-1 text-[10px] font-medium rounded-md text-slate-400 hover:text-white transition">
+                                    Text <span id="sentBadge-text" class="ml-1 bg-slate-700 px-1.5 py-0.5 rounded-full text-[8px] text-slate-300">0</span>
+                                </button>
+                            </div>
+                        </div>
                         <button onclick="clearHistory('sent')" class="text-xs text-slate-400 hover:text-white transition p-1">Clear Log</button>
                     </div>
 
-                    <div id="sentHistoryList" class="space-y-2.5">
-                        <p class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages sent yet.</p>
+                    <div id="sentHistoryList" class="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2.5">
+                        <p class="col-span-full text-xs text-slate-500 italic text-center py-6 sm:py-8">No files sent yet.</p>
                     </div>
                 </div>
             </div>
 
             <!-- RECEIVE TAB CONTENT -->
             <div id="receiveView" class="space-y-6 hidden">
-                <!-- Active Downloads List -->
                 <div id="activeDownloadsCard" class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl hidden">
                     <h2 class="text-sm sm:text-base font-semibold text-white mb-3.5 flex items-center gap-2">
                         <i class="fa-solid fa-arrow-down text-emerald-400 animate-bounce"></i> Active Downloads
@@ -383,25 +366,35 @@
                     <div id="activeDownloadsList" class="space-y-3"></div>
                 </div>
 
-                <!-- Received Activity & History Log -->
+                <!-- Received Activity & History Log (Tabs) -->
                 <div class="glass-panel border border-slate-800 rounded-2xl p-4 sm:p-6 shadow-xl">
-                    <div class="flex justify-between items-center mb-3.5">
-                        <h2 class="text-sm sm:text-base font-semibold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-clock-rotate-left text-brand-400"></i> Received History
-                        </h2>
+                    <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                        <div class="flex items-center gap-3">
+                            <h2 class="text-sm sm:text-base font-semibold text-white flex items-center gap-2 mr-1">
+                                <i class="fa-solid fa-clock-rotate-left text-brand-400"></i> Received
+                            </h2>
+                            <!-- Sub Tabs -->
+                            <div class="flex bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+                                <button onclick="switchHistoryTab('received', 'file')" id="receivedTab-file" class="relative px-2.5 py-1 text-[10px] font-medium rounded-md text-white bg-slate-700 transition">
+                                    Files <span id="receivedBadge-file" class="ml-1 bg-emerald-500 px-1.5 py-0.5 rounded-full text-[8px] text-white">0</span>
+                                </button>
+                                <button onclick="switchHistoryTab('received', 'text')" id="receivedTab-text" class="relative px-2.5 py-1 text-[10px] font-medium rounded-md text-slate-400 hover:text-white transition">
+                                    Text <span id="receivedBadge-text" class="ml-1 bg-slate-700 px-1.5 py-0.5 rounded-full text-[8px] text-slate-300">0</span>
+                                </button>
+                            </div>
+                        </div>
                         <button onclick="clearHistory('received')" class="text-xs text-slate-400 hover:text-white transition p-1">Clear Log</button>
                     </div>
 
-                    <div id="receivedHistoryList" class="space-y-2.5">
-                        <p class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages received yet.</p>
+                    <div id="receivedHistoryList" class="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2.5">
+                        <p class="col-span-full text-xs text-slate-500 italic text-center py-6 sm:py-8">No files received yet.</p>
                     </div>
                 </div>
             </div>
         </div>
-
     </main>
 
-    <!-- Bottom Navigation Tabs (Hidden until connected) -->
+    <!-- Bottom Navigation Tabs -->
     <nav id="bottomNav" class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-md border-t border-slate-800/80 z-40 hidden" style="padding-bottom: env(safe-area-inset-bottom);">
         <div class="flex max-w-4xl mx-auto h-16">
             <button onclick="switchTab('send')" id="navSend" class="flex-1 flex flex-col items-center justify-center text-brand-500 bg-slate-800/50 border-t-2 border-brand-500 gap-1 transition-all duration-200">
@@ -421,7 +414,7 @@
         Air Transfer &bull; Secure Encrypted Direct Data Transfer System
     </footer>
 
-    <!-- New Online Connection Popup Modal -->
+    <!-- Modals -->
     <div id="connectionPopupModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
         <div class="glass-panel border border-emerald-500/40 rounded-3xl p-6 max-w-sm w-full text-center relative shadow-2xl space-y-4">
             <div class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center mx-auto border border-emerald-500/30 text-2xl animate-bounce">
@@ -437,7 +430,6 @@
         </div>
     </div>
 
-    <!-- QR Code Display Modal -->
     <div id="qrModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
         <div class="glass-panel border border-slate-700 rounded-3xl p-5 sm:p-6 max-w-sm w-full text-center relative shadow-2xl max-h-[90vh] overflow-y-auto">
             <button onclick="toggleQRModal()" class="touch-action-btn absolute top-3.5 right-3.5 text-slate-400 hover:text-white text-xl p-2">
@@ -454,7 +446,6 @@
         </div>
     </div>
 
-    <!-- Camera QR Code Scanner Modal -->
     <div id="qrScannerModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center hidden p-3 sm:p-4">
         <div class="glass-panel border border-slate-700 rounded-3xl p-4 sm:p-6 max-w-md w-full text-center relative shadow-2xl">
             <button onclick="closeCameraScanner()" class="touch-action-btn absolute top-3.5 right-3.5 text-slate-400 hover:text-white text-xl p-2">
@@ -466,18 +457,15 @@
             </h3>
             <p class="text-xs text-slate-400 mb-3">Point camera at an Air Transfer room code</p>
 
-            <!-- Camera Permission Status Alert -->
             <div id="cameraAlert" class="hidden mb-3 bg-amber-950/80 border border-amber-700/60 p-2.5 rounded-xl text-amber-200 text-xs text-left flex items-start gap-2">
                 <i class="fa-solid fa-triangle-exclamation text-amber-400 shrink-0 mt-0.5"></i>
                 <span id="cameraAlertText">Please allow camera permissions in your browser.</span>
             </div>
 
-            <!-- Scanner Viewfinder Container -->
             <div class="relative rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 min-h-[220px] flex items-center justify-center mb-3">
                 <div id="qrReader" class="w-full"></div>
             </div>
 
-            <!-- Camera Controls (Flip Camera) -->
             <div class="flex items-center justify-center gap-2 mb-3">
                 <button type="button" onclick="switchCameraFacingMode()" class="touch-action-btn bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-medium transition flex items-center gap-2">
                     <i class="fa-solid fa-arrows-rotate text-brand-400"></i> Switch Camera
@@ -497,31 +485,62 @@
     <script>
         let peer = null;
         let myId = '';
-        let activeConnections = {}; // peerId -> connection wrapper
+        let activeConnections = {}; 
         let fileQueue = [];
         let historyLog = [];
         let broadcastChannel = null;
         let isSandboxMode = false;
         
-        // Camera Scanner Control State
         let html5QrcodeScanner = null;
-        let currentFacingMode = "environment"; // default to back camera
+        let currentFacingMode = "environment"; 
 
-        // WebRTC Chunk Transfer Config
-        const CHUNK_SIZE = 64 * 1024; // 64KB chunks for optimal P2P bandwidth
+        const CHUNK_SIZE = 64 * 1024;
         let activeTransfers = {};
+
+        // Track active sub-tabs in history
+        let activeHistoryTabs = {
+            sent: 'file',
+            received: 'file'
+        };
 
         window.onload = function() {
             initBroadcastChannel();
             initPeer();
+            renderHistory();
         };
+
+        function switchHistoryTab(direction, type) {
+            activeHistoryTabs[direction] = type;
+            const badgeColor = direction === 'sent' ? 'bg-brand-500' : 'bg-emerald-500';
+            
+            const tabFile = document.getElementById(`${direction}Tab-file`);
+            const tabText = document.getElementById(`${direction}Tab-text`);
+            const badgeFile = document.getElementById(`${direction}Badge-file`);
+            const badgeText = document.getElementById(`${direction}Badge-text`);
+
+            if (type === 'file') {
+                tabFile.className = "relative px-2.5 py-1 text-[10px] font-medium rounded-md text-white bg-slate-700 transition";
+                badgeFile.className = `ml-1 ${badgeColor} px-1.5 py-0.5 rounded-full text-[8px] text-white`;
+                
+                tabText.className = "relative px-2.5 py-1 text-[10px] font-medium rounded-md text-slate-400 hover:text-white transition";
+                badgeText.className = "ml-1 bg-slate-700 px-1.5 py-0.5 rounded-full text-[8px] text-slate-300";
+            } else {
+                tabText.className = "relative px-2.5 py-1 text-[10px] font-medium rounded-md text-white bg-slate-700 transition";
+                badgeText.className = `ml-1 ${badgeColor} px-1.5 py-0.5 rounded-full text-[8px] text-white`;
+                
+                tabFile.className = "relative px-2.5 py-1 text-[10px] font-medium rounded-md text-slate-400 hover:text-white transition";
+                badgeFile.className = "ml-1 bg-slate-700 px-1.5 py-0.5 rounded-full text-[8px] text-slate-300";
+            }
+            
+            renderHistory();
+        }
 
         function generateRoomCode() {
             let code = '';
             for (let i = 0; i < 4; i++) {
                 code += Math.floor(Math.random() * 10).toString();
             }
-            const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // A-Z
+            const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
             const insertPos = Math.floor(Math.random() * 5);
             return code.slice(0, insertPos) + letter + code.slice(insertPos);
         }
@@ -538,13 +557,11 @@
             if (tab === 'send') {
                 sendView.classList.remove('hidden');
                 receiveView.classList.add('hidden');
-                
                 navSend.className = activeClass;
                 navReceive.className = inactiveClass;
             } else {
                 receiveView.classList.remove('hidden');
                 sendView.classList.add('hidden');
-                
                 navReceive.className = activeClass;
                 navSend.className = inactiveClass;
             }
@@ -565,7 +582,6 @@
 
         function initPeer() {
             updateStatus('connecting', 'Connecting...');
-            
             myId = generateRoomCode();
             document.getElementById('myPeerId').innerText = myId;
             generateQRCode();
@@ -613,7 +629,6 @@
                 });
 
                 peer.on('error', (err) => {
-                    console.warn('PeerJS event:', err);
                     if (err.type === 'disconnected' || err.toString().includes('SecurityError') || err.toString().includes('WebSocket')) {
                         enableSandboxFallback();
                     } else if (err.type === 'peer-not-found') {
@@ -623,7 +638,6 @@
                     }
                 });
             } catch (err) {
-                console.warn('PeerJS setup fallback:', err);
                 enableSandboxFallback();
             }
         }
@@ -631,7 +645,6 @@
         function enableSandboxFallback() {
             isSandboxMode = true;
             document.getElementById('sandboxNotice').classList.remove('hidden');
-            document.getElementById('peerEngineStatus').innerText = 'Engine: Local Tab Bridge';
             updateStatus('ready', 'Local Tab Bridge Active');
 
             if (broadcastChannel) {
@@ -641,17 +654,13 @@
 
         function handleBroadcastMessage(data) {
             if (!data) return;
-
             if (data.type === 'presence-announce' && data.peerId !== myId) {
                 showToast(`Discovered local tab: ${data.peerId}`, 'info');
             }
-
             if (data.targetPeerId !== myId) return;
 
             if (data.type === 'tab-connect-request') {
-                if (Object.keys(activeConnections).length >= 1) {
-                    return;
-                }
+                if (Object.keys(activeConnections).length >= 1) return;
                 registerLocalTabPeer(data.senderPeerId);
                 broadcastChannel.postMessage({
                     type: 'tab-connect-ack',
@@ -780,18 +789,32 @@
         function switchToTransferStep() {
             const keys = Object.keys(activeConnections);
             if (keys.length > 0) {
-                document.getElementById('activeSessionPeerId').innerText = `Active Partner: ${keys.join(', ')}`;
+                document.getElementById('headerActivePeerId').innerText = keys.join(', ');
             }
+            
+            // Toggle view panels
             document.getElementById('connectionStepView').classList.add('hidden');
             document.getElementById('transferStepView').classList.remove('hidden');
             document.getElementById('bottomNav').classList.remove('hidden');
+
+            // Swap header status elements
+            document.getElementById('connectionBadge').classList.add('hidden');
+            document.getElementById('activeSessionBadge').classList.remove('hidden');
+            document.getElementById('activeSessionBadge').classList.add('flex');
+
             switchTab('send');
         }
 
         function backToConnectionStep() {
+            // Toggle view panels
             document.getElementById('transferStepView').classList.add('hidden');
             document.getElementById('connectionStepView').classList.remove('hidden');
             document.getElementById('bottomNav').classList.add('hidden');
+
+            // Swap header status elements back
+            document.getElementById('activeSessionBadge').classList.add('hidden');
+            document.getElementById('activeSessionBadge').classList.remove('flex');
+            document.getElementById('connectionBadge').classList.remove('hidden');
         }
 
         function exitSession() {
@@ -874,7 +897,6 @@
             showToast(`Switched to ${currentFacingMode === "user" ? "Front" : "Back"} Camera`, 'info');
         }
 
-        /* Type 1 In-Web Camera Scanner Handler: Extract raw 5-char code and connect */
         function onScanSuccess(decodedText) {
             let roomId = decodedText.trim();
 
@@ -892,7 +914,6 @@
             }
 
             roomId = roomId.toUpperCase();
-
             document.getElementById('remoteIdInput').value = roomId;
             closeCameraScanner();
             showToast(`Room code scanned: ${roomId}`, 'success');
@@ -906,13 +927,6 @@
                 } catch(e) {}
             }
             document.getElementById('qrScannerModal').classList.add('hidden');
-        }
-
-        function handleCameraCapture(e) {
-            if (e.target.files && e.target.files.length > 0) {
-                addFilesToQueue(e.target.files);
-                showToast(`Captured photo/media attached!`, 'success');
-            }
         }
 
         function handleDragOver(e) {
@@ -1077,6 +1091,7 @@
 
                 let currentChunk = 0;
                 const startTime = Date.now();
+                const objectUrl = URL.createObjectURL(file); 
 
                 function readAndSendChunk() {
                     if (currentChunk >= totalChunks) {
@@ -1088,7 +1103,8 @@
                             size: file.size,
                             direction: 'Sent',
                             peerId: conn.peer,
-                            timestamp: new Date()
+                            timestamp: new Date(),
+                            downloadUrl: objectUrl
                         });
                         showToast(`Sent ${file.name}`, 'success');
                         resolve();
@@ -1280,17 +1296,22 @@
             renderHistory();
         }
 
+        function isImage(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp'].includes(ext);
+        }
+
         function generateHistoryHTML(item) {
             if (item.type === 'text') {
                 return `
-                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs space-y-1.5">
+                    <div class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs space-y-1.5">
                         <div class="flex justify-between items-center text-slate-400">
                             <span class="font-semibold text-brand-400 flex items-center gap-1.5">
-                                <i class="fa-solid fa-comment-dots"></i> Snippet (${item.direction})
+                                <i class="fa-solid fa-comment-dots"></i> Text (${item.direction})
                             </span>
                             <span class="text-[10px] font-mono text-slate-500">${item.peerId}</span>
                         </div>
-                        <p class="text-slate-200 bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80 font-mono select-all break-all">${escapeHtml(item.content)}</p>
+                        <p class="text-slate-200 bg-slate-950/80 p-2.5 rounded-lg border border-slate-800/80 font-mono select-all break-all whitespace-pre-wrap">${escapeHtml(item.content)}</p>
                         <div class="flex justify-end">
                             <button onclick="copyToClipboard('${escapeHtml(item.content)}')" class="text-[11px] text-slate-400 hover:text-white flex items-center gap-1">
                                 <i class="fa-regular fa-copy"></i> Copy Text
@@ -1299,26 +1320,40 @@
                     </div>
                 `;
             }
+            
+            const ext = item.name.split('.').pop().toLowerCase();
+            let innerContent = '';
+
+            if (item.downloadUrl && isImage(item.name)) {
+                innerContent = `<img src="${item.downloadUrl}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" alt="${escapeHtml(item.name)}">`;
+            } else {
+                innerContent = `
+                    <div class="w-full h-full flex flex-col items-center justify-center bg-slate-800/50 p-2 transition-colors duration-300 group-hover:bg-slate-700/50">
+                        <i class="${getFileIcon(item.name)} text-3xl sm:text-4xl text-slate-400 mb-2 group-hover:scale-110 transition-transform duration-300"></i>
+                        <span class="text-[9px] sm:text-[10px] text-slate-300 font-medium text-center truncate w-full px-1">${escapeHtml(item.name)}</span>
+                        <span class="text-[8px] font-bold text-slate-500 uppercase mt-0.5">${ext}</span>
+                    </div>
+                `;
+            }
 
             return `
-                <div class="flex items-center justify-between bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs">
-                    <div class="flex items-center space-x-3 overflow-hidden">
-                        <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center border border-slate-700 shrink-0">
-                            <i class="${getFileIcon(item.name)} text-brand-400"></i>
-                        </div>
-                        <div class="truncate">
-                            <p class="font-medium text-slate-200 truncate">${escapeHtml(item.name)}</p>
-                            <p class="text-slate-500 text-[11px]">${formatBytes(item.size)} &bull; ${item.direction} (${item.peerId})</p>
-                        </div>
+                <div class="relative aspect-square bg-slate-800 rounded-xl overflow-hidden border border-slate-700/80 group shadow-sm">
+                    ${innerContent}
+                    
+                    <div class="absolute top-1.5 right-1.5 px-1.5 py-0.5 rounded-md bg-slate-900/60 backdrop-blur-md text-white text-[9px] font-medium tracking-wide z-10">
+                        ${formatBytes(item.size)}
                     </div>
-
-                    ${item.downloadUrl ? `
-                        <a href="${item.downloadUrl}" download="${escapeHtml(item.name)}" 
-                            class="bg-brand-600 hover:bg-brand-500 text-white border border-brand-500 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 font-medium shrink-0">
-                            <i class="fa-solid fa-download"></i> Save
-                        </a>
+                    
+                    ${item.direction === 'Received' && item.downloadUrl ? `
+                    <a href="${item.downloadUrl}" download="${escapeHtml(item.name)}" class="absolute inset-0 bg-slate-950/60 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20">
+                        <div class="w-9 h-9 rounded-full bg-brand-500 text-white flex items-center justify-center shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                    </a>
                     ` : `
-                        <span class="text-[11px] text-emerald-400 font-medium px-2.5 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/20">Sent</span>
+                    <div class="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-emerald-500/80 backdrop-blur-md text-white text-[9px] font-medium flex items-center gap-1 z-10">
+                        <i class="fa-solid fa-check"></i> Sent
+                    </div>
                     `}
                 </div>
             `;
@@ -1330,20 +1365,52 @@
             
             const sentItems = historyLog.filter(item => item.direction === 'Sent');
             const receivedItems = historyLog.filter(item => item.direction === 'Received');
+            
+            const sentFiles = sentItems.filter(i => i.type === 'file');
+            const sentTexts = sentItems.filter(i => i.type === 'text');
+            const receivedFiles = receivedItems.filter(i => i.type === 'file');
+            const receivedTexts = receivedItems.filter(i => i.type === 'text');
+
+            // Update Tab Badges
+            const sbf = document.getElementById('sentBadge-file');
+            const sbt = document.getElementById('sentBadge-text');
+            const rbf = document.getElementById('receivedBadge-file');
+            const rbt = document.getElementById('receivedBadge-text');
+
+            if (sbf) sbf.innerText = sentFiles.length;
+            if (sbt) sbt.innerText = sentTexts.length;
+            if (rbf) rbf.innerText = receivedFiles.length;
+            if (rbt) rbt.innerText = receivedTexts.length;
 
             if (sentList) {
-                if (sentItems.length === 0) {
-                    sentList.innerHTML = `<p class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages sent yet.</p>`;
+                const activeSentItems = activeHistoryTabs.sent === 'file' ? sentFiles : sentTexts;
+                
+                if (activeHistoryTabs.sent === 'text') {
+                    sentList.className = "grid grid-cols-1 gap-2.5";
                 } else {
-                    sentList.innerHTML = sentItems.map(generateHistoryHTML).join('');
+                    sentList.className = "grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2.5";
+                }
+
+                if (activeSentItems.length === 0) {
+                    sentList.innerHTML = `<p class="col-span-full text-xs text-slate-500 italic text-center py-6 sm:py-8">No ${activeHistoryTabs.sent === 'file' ? 'files' : 'text'} sent yet.</p>`;
+                } else {
+                    sentList.innerHTML = activeSentItems.map(generateHistoryHTML).join('');
                 }
             }
 
             if (receivedList) {
-                if (receivedItems.length === 0) {
-                    receivedList.innerHTML = `<p class="text-xs text-slate-500 italic text-center py-6 sm:py-8">No files or messages received yet.</p>`;
+                const activeReceivedItems = activeHistoryTabs.received === 'file' ? receivedFiles : receivedTexts;
+                
+                if (activeHistoryTabs.received === 'text') {
+                    receivedList.className = "grid grid-cols-1 gap-2.5";
                 } else {
-                    receivedList.innerHTML = receivedItems.map(generateHistoryHTML).join('');
+                    receivedList.className = "grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 gap-2.5";
+                }
+
+                if (activeReceivedItems.length === 0) {
+                    receivedList.innerHTML = `<p class="col-span-full text-xs text-slate-500 italic text-center py-6 sm:py-8">No ${activeHistoryTabs.received === 'file' ? 'files' : 'text'} received yet.</p>`;
+                } else {
+                    receivedList.innerHTML = activeReceivedItems.map(generateHistoryHTML).join('');
                 }
             }
         }
@@ -1377,6 +1444,7 @@
             if (['pdf'].includes(ext)) return 'fa-solid fa-file-pdf';
             if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) return 'fa-solid fa-file-zipper';
             if (['js', 'html', 'css', 'py', 'java', 'cpp', 'json'].includes(ext)) return 'fa-solid fa-file-code';
+            if (['doc', 'docx', 'txt', 'rtf'].includes(ext)) return 'fa-solid fa-file-word';
             return 'fa-solid fa-file';
         }
 
@@ -1420,7 +1488,6 @@
             document.body.removeChild(dummy);
         }
 
-        /* Type 2 QR Code Generator: Embeds full direct connection link for third-party camera apps */
         function generateQRCode() {
             const qrcodeContainer = document.getElementById("qrcode");
             if (!qrcodeContainer) return;
