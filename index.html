@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Xfero</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#8b5cf6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Xfero">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+
+    <title>Xfero - Secure File Transfer</title>
     
     <!-- Custom 2-Color SVG Favicon (Purple & White: X + Paper Airplane Head Up) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%238b5cf6'/%3E%3Cpath d='M128 128 L384 384 M384 128 L128 384' stroke='%23ffffff' stroke-width='48' stroke-linecap='round'/%3E%3Cpath d='M256 80 L384 400 L256 336 L128 400 Z' fill='%23ffffff' stroke='%238b5cf6' stroke-width='32' stroke-linejoin='round'/%3E%3Cpath d='M256 80 L256 336' stroke='%238b5cf6' stroke-width='24' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -281,7 +290,9 @@
 
                     <!-- Section Header -->
                     <div class="text-center max-w-xl mx-auto mb-8">
-
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/30 text-brand-400 text-[11px] font-bold uppercase tracking-wider mb-2.5">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Visual Connection Guide
+                        </div>
                         <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">How to Connect Two Devices?</h2>
                         <p class="text-xs sm:text-sm text-slate-400 mt-1">Follow these 4 visual steps to link phones, tablets, or computers in seconds.</p>
                     </div>
@@ -792,6 +803,16 @@
             initPeer();
             renderHistory();
         };
+
+        // --- PWA Service Worker Registration ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('PWA Service Worker registered'))
+                    .catch(err => console.warn('PWA Service Worker registration failed:', err));
+            });
+        }
+        // ---------------------------------------
 
         function switchHistoryTab(direction, type) {
             activeHistoryTabs[direction] = type;
