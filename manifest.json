@@ -9,8 +9,8 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%238b5cf6'/%3E%3Cpath d='M128 128 L384 384 M384 128 L128 384' stroke='%23ffffff' stroke-width='48' stroke-linecap='round'/%3E%3Cpath d='M256 80 L384 400 L256 336 L128 400 Z' fill='%23ffffff' stroke='%238b5cf6' stroke-width='32' stroke-linejoin='round'/%3E%3Cpath d='M256 80 L256 336' stroke='%238b5cf6' stroke-width='24' stroke-linecap='round'/%3E%3C/svg%3E",
-      "type": "image/svg+xml",
+      "src": "/img.jpg",
+      "type": "image/jpg",
       "sizes": "512x512",
       "purpose": "any maskable"
     }
