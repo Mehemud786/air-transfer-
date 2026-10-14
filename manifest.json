@@ -9,7 +9,7 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/img.jpg",
+      "src": "/favicon.jpg",
       "type": "image/jpg",
       "sizes": "512x512",
       "purpose": "any maskable"
